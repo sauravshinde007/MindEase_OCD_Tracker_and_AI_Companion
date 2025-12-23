@@ -1,0 +1,38 @@
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { AuthProvider } from './context/AuthContext';
+import Landing from './pages/Landing';
+import Login from './pages/Login';
+import Signup from './pages/Signup';
+import Dashboard from './pages/Dashboard';
+import Journal from './pages/Journal';
+import AiCompanion from './pages/AiCompanion';
+import Analytics from './pages/Analytics';
+import PrivateRoute from './components/PrivateRoute';
+import Layout from './components/Layout';
+
+function App() {
+  return (
+    <AuthProvider>
+      <Router>
+        <div className="min-h-screen bg-background text-textMain font-sans">
+          <Routes>
+            <Route path="/" element={<Landing />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            
+            <Route element={<PrivateRoute />}>
+                <Route element={<Layout />}>
+                    <Route path="/dashboard" element={<Dashboard />} />
+                    <Route path="/journal" element={<Journal />} />
+                    <Route path="/analytics" element={<Analytics />} />
+                    <Route path="/ai-companion" element={<AiCompanion />} />
+                </Route>
+            </Route>
+          </Routes>
+        </div>
+      </Router>
+    </AuthProvider>
+  );
+}
+
+export default App;
