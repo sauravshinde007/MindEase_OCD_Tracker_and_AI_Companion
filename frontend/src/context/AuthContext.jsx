@@ -13,7 +13,21 @@ export const AuthProvider = ({ children }) => {
   axios.defaults.withCredentials = true;
 
   useEffect(() => {
+    const interceptor = axios.interceptors.response.use(
+      (response) => response,
+      (error) => {
+        if (error.response && error.response.status === 401) {
+          setUser(null);
+        }
+        return Promise.reject(error);
+      }
+    );
+
     checkUserLoggedIn();
+
+    return () => {
+      axios.interceptors.response.eject(interceptor);
+    };
   }, []);
 
   const checkUserLoggedIn = async () => {

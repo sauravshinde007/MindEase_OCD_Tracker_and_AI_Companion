@@ -8,16 +8,48 @@ const openai = new OpenAI({
 
 const getMockResponse = (message) => {
     const lowerMsg = message.toLowerCase();
-    if (lowerMsg.includes('anx') || lowerMsg.includes('panic')) {
-        return "I hear that you're feeling anxious. Let's try a grounding exercise: Name 5 things you can see, 4 things you can touch, 3 things you can hear, 2 things you can smell, and 1 thing you can taste. Take a deep breath.";
+    
+    // Helper to pick random response
+    const pickRandom = (arr) => arr[Math.floor(Math.random() * arr.length)];
+
+    if (lowerMsg.includes('anx') || lowerMsg.includes('panic') || lowerMsg.includes('scared') || lowerMsg.includes('fear')) {
+        return pickRandom([
+            "I hear that you're feeling anxious. Let's try a grounding exercise: Name 5 things you can see, 4 things you can touch, 3 things you can hear, 2 things you can smell, and 1 thing you can taste. Take a deep breath.",
+            "Anxiety can be overwhelming, but remember it is a temporary wave. Try to breathe in for 4 seconds, hold for 7, and exhale for 8.",
+            "It's okay to feel scared. You are safe right now. Focus on your feet on the floor and the weight of your body in the chair."
+        ]);
     }
-    if (lowerMsg.includes('compulsion') || lowerMsg.includes('urge') || lowerMsg.includes('check')) {
-        return "It sounds like you're facing a compulsion. Remember the 15-minute rule: Can you wait just 15 minutes before acting on it? The urge often passes like a wave.";
+    
+    if (lowerMsg.includes('compulsion') || lowerMsg.includes('urge') || lowerMsg.includes('check') || lowerMsg.includes('wash') || lowerMsg.includes('repeat')) {
+        return pickRandom([
+            "It sounds like you're facing a compulsion. Remember the 15-minute rule: Can you wait just 15 minutes before acting on it? The urge often passes like a wave.",
+            "Resisting the urge is hard, but it breaks the cycle. Try to delay the compulsion by just a few minutes longer than last time.",
+            "You are stronger than this urge. What would happen if you didn't do it? Sit with the uncertainty for a moment."
+        ]);
     }
-    if (lowerMsg.includes('thought') || lowerMsg.includes('obsess')) {
-        return "Intrusive thoughts can be scary, but remember: thoughts are just thoughts, not facts. You don't have to engage with them. Visualize the thought floating away on a cloud.";
+    
+    if (lowerMsg.includes('thought') || lowerMsg.includes('obsess') || lowerMsg.includes('mind') || lowerMsg.includes('worry')) {
+        return pickRandom([
+            "Intrusive thoughts can be scary, but remember: thoughts are just thoughts, not facts. You don't have to engage with them. Visualize the thought floating away on a cloud.",
+            "Just because you think it, doesn't mean it's true. Label it: 'I am having a thought that...'",
+            "Try to observe the thought without judging it. Let it pass through your mind like a car driving past your house."
+        ]);
     }
-    return "I'm here for you. Tell me more about how you're feeling. We can work through this together.";
+
+    if (lowerMsg.includes('hello') || lowerMsg.includes('hi') || lowerMsg.includes('hey')) {
+        return pickRandom([
+            "Hello! I'm here to support you. How are you feeling today?",
+            "Hi there. You're not alone. What's on your mind?",
+            "Hey. I'm listening. Feel free to share whatever is bothering you."
+        ]);
+    }
+
+    return pickRandom([
+        "I'm here for you. Tell me more about how you're feeling. We can work through this together.",
+        "That sounds difficult. How long have you been feeling this way?",
+        "I'm listening. It takes courage to share that. What do you think triggered this?",
+        "Thank you for sharing. Remember to be kind to yourself today. What usually helps you when you feel this way?"
+    ]);
 };
 
 const chat = async (req, res) => {

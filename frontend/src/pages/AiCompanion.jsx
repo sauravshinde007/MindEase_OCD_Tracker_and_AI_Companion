@@ -59,6 +59,10 @@ const AiCompanion = () => {
       setMessages(prev => [...prev, aiMsg]);
     } catch (error) {
       console.error('Error sending message', error);
+      if (error.response && error.response.status === 401) {
+          // Handled by AuthContext interceptor (redirects to login)
+          return;
+      }
       const errorMsg = { id: Date.now() + 1, role: 'ai', content: "I'm having trouble connecting right now. Please try again later." };
       setMessages(prev => [...prev, errorMsg]);
     } finally {
@@ -95,6 +99,9 @@ const AiCompanion = () => {
         }
     } catch (error) {
       console.error('Error sending check-in', error);
+      if (error.response && error.response.status === 401) {
+          return;
+      }
       const errorMsg = { id: Date.now() + 1, role: 'ai', content: "I'm having trouble connecting right now." };
       setCheckInMessages(prev => [...prev, errorMsg]);
     } finally {
