@@ -15,7 +15,7 @@ frontend/node_modules/
 # === ENV FILES ===
 .env
 .env.*       # like .env.local / .env.dev
-
+backend/.env 
 # === DIST/BUILD OUTPUTS ===
 dist/
 dist-ssr/
