@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { List, CheckCircle, AlertTriangle, ArrowRight } from 'lucide-react';
 
 const Exposure = () => {
+  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
   const [fearTheme, setFearTheme] = useState('');
   const [hierarchy, setHierarchy] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -18,7 +19,7 @@ const Exposure = () => {
     setHierarchy(null);
 
     try {
-      const res = await axios.post('http://localhost:5000/api/ai/generate-erp', {
+      const res = await axios.post(`${API_URL}/api/ai/generate-erp`, {
         fearTheme
       }, { withCredentials: true });
       setHierarchy(res.data.hierarchy);

@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { format, parseISO } from 'date-fns';
 
 const Analytics = () => {
+  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
   const [moodLogs, setMoodLogs] = useState([]);
   const [erpTasks, setErpTasks] = useState([]);
   const [compulsions, setCompulsions] = useState([]);
@@ -30,10 +31,10 @@ const Analytics = () => {
   const fetchData = async () => {
     try {
       const [moodRes, erpRes, compRes, insightRes] = await Promise.all([
-        axios.get('http://localhost:5000/api/moods', { withCredentials: true }),
-        axios.get('http://localhost:5000/api/erp', { withCredentials: true }),
-        axios.get('http://localhost:5000/api/compulsions', { withCredentials: true }),
-        axios.get('http://localhost:5000/api/analytics/insights', { withCredentials: true })
+        axios.get(`${API_URL}/api/moods`, { withCredentials: true }),
+        axios.get(`${API_URL}/api/erp`, { withCredentials: true }),
+        axios.get(`${API_URL}/api/compulsions`, { withCredentials: true }),
+        axios.get(`${API_URL}/api/analytics/insights`, { withCredentials: true })
       ]);
       setMoodLogs(moodRes.data);
       setErpTasks(erpRes.data);
@@ -56,7 +57,7 @@ const Analytics = () => {
 
   const saveTask = async (title, level) => {
     try {
-      await axios.post('http://localhost:5000/api/erp', {
+      await axios.post(`${API_URL}/api/erp`, {
         title,
         difficultyLevel: level
       }, { withCredentials: true });
@@ -70,7 +71,7 @@ const Analytics = () => {
     e.preventDefault();
     setIsGenerating(true);
     try {
-      const res = await axios.post('http://localhost:5000/api/ai/generate-erp', {
+      const res = await axios.post(`${API_URL}/api/ai/generate-erp`, {
         fearTheme
       }, { withCredentials: true });
       setGeneratedHierarchy(res.data.hierarchy);
@@ -90,7 +91,7 @@ const Analytics = () => {
 
   const toggleTask = async (id) => {
     try {
-      await axios.patch(`http://localhost:5000/api/erp/${id}/toggle`, {}, { withCredentials: true });
+      await axios.patch(`${API_URL}/api/erp/${id}/toggle`, {}, { withCredentials: true });
       setErpTasks(prev => prev.map(t => 
         t._id === id ? { ...t, isCompleted: !t.isCompleted } : t
       ));

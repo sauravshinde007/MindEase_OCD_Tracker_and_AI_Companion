@@ -32,7 +32,7 @@ const Chat = () => {
     setIsLoading(true);
 
     try {
-      const res = await axios.post('http://localhost:5000/api/ai/chat', { message: userMessage.content });
+      const res = await axios.post(`${API_URL}/api/ai/chat`, { message: userMessage.content });
       const botMessage = { role: 'assistant', content: res.data.reply };
       setMessages(prev => [...prev, botMessage]);
     } catch (error) {

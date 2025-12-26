@@ -7,6 +7,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Timer, Zap, AlertTriangle, Play, Square, Check, XCircle } from 'lucide-react';
 
 const Dashboard = () => {
+  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   const [moodLogs, setMoodLogs] = useState([]);
@@ -36,7 +37,7 @@ const Dashboard = () => {
 
   const fetchMoodLogs = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/moods', { withCredentials: true });
+      const res = await axios.get(`${API_URL}/api/moods`, { withCredentials: true });
       setMoodLogs(res.data);
       checkIfLoggedToday(res.data);
     } catch (error) {
@@ -57,7 +58,7 @@ const Dashboard = () => {
   const handleCheckIn = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:5000/api/moods', {
+      await axios.post(`${API_URL}/api/moods`, {
         anxietyScore,
         note,
         moodLabel: anxietyScore > 7 ? 'High Anxiety' : anxietyScore > 4 ? 'Moderate' : 'Calm'
@@ -83,7 +84,7 @@ const Dashboard = () => {
     const resistanceMinutes = Math.floor(timerSeconds / 60);
 
     try {
-      await axios.post('http://localhost:5000/api/compulsions', {
+      await axios.post(`${API_URL}/api/compulsions`, {
         compulsionName,
         durationMinutes: 0, // Assuming duration of act is 0 for now
         resistanceDuration: resistanceMinutes,

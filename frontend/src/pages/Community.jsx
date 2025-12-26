@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
 
 const Community = () => {
+  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
   const { user } = useAuth();
   const [stories, setStories] = useState([]);
   const [newStory, setNewStory] = useState({ title: '', content: '', isAnonymous: false });
@@ -16,7 +17,7 @@ const Community = () => {
 
   const fetchStories = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/community');
+      const res = await axios.get(`${API_URL}/api/community`);
       setStories(res.data);
     } catch (error) {
       console.error('Error fetching stories:', error);
@@ -30,7 +31,7 @@ const Community = () => {
     if (!newStory.title || !newStory.content) return;
 
     try {
-      await axios.post('http://localhost:5000/api/community', newStory);
+      await axios.post(`${API_URL}/api/community`, newStory);
       setNewStory({ title: '', content: '', isAnonymous: false });
       fetchStories();
     } catch (error) {
@@ -40,7 +41,7 @@ const Community = () => {
 
   const handleLike = async (storyId) => {
     try {
-      await axios.put(`http://localhost:5000/api/community/${storyId}/like`);
+      await axios.put(`${API_URL}/api/community/${storyId}/like`);
       fetchStories(); // Or optimistically update
     } catch (error) {
       console.error('Error liking story:', error);
@@ -52,7 +53,7 @@ const Community = () => {
     if (!content) return;
 
     try {
-      await axios.post(`http://localhost:5000/api/community/${storyId}/comment`, { 
+      await axios.post(`${API_URL}/api/community/${storyId}/comment`, { 
         content,
         isAnonymous: commentAnonStates[storyId] || false 
       });

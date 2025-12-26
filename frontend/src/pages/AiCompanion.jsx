@@ -4,6 +4,7 @@ import { Send, Bot, User, RefreshCw, BrainCircuit, MessageSquare, HeartPulse } f
 import { motion } from 'framer-motion';
 
 const AiCompanion = () => {
+  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
   const [mode, setMode] = useState('chat'); // 'chat' | 'deconstruct' | 'check-in'
   
   // Chat State
@@ -54,7 +55,7 @@ const AiCompanion = () => {
     setLoading(true);
 
     try {
-      const res = await axios.post('http://localhost:5000/api/ai/chat', { message: userMsg.content }, { withCredentials: true });
+      const res = await axios.post(`${API_URL}/api/ai/chat`, { message: userMsg.content }, { withCredentials: true });
       const aiMsg = { id: Date.now() + 1, role: 'ai', content: res.data.reply };
       setMessages(prev => [...prev, aiMsg]);
     } catch (error) {
@@ -80,7 +81,7 @@ const AiCompanion = () => {
     setLoading(true);
 
     try {
-        const res = await axios.post('http://localhost:5000/api/ai/check-in', { 
+        const res = await axios.post(`${API_URL}/api/ai/check-in`, { 
             message: userMsg.content,
             history: checkInMessages.map(m => ({ sender: m.role, text: m.content }))
         }, { withCredentials: true });
@@ -117,7 +118,7 @@ const AiCompanion = () => {
     setDeconstructionResult(null);
 
     try {
-      const res = await axios.post('http://localhost:5000/api/ai/deconstruct-thought', { 
+      const res = await axios.post(`${API_URL}/api/ai/deconstruct-thought`, { 
         thought: thoughtInput 
       }, { withCredentials: true });
       setDeconstructionResult(res.data.analysis);

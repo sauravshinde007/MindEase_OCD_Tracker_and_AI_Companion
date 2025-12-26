@@ -19,7 +19,7 @@ const PORT = process.env.PORT || 5000;
 
 // Middleware
 app.use(cors({
-    origin: 'http://localhost:5173', // Frontend URL
+    origin: process.env.FRONTEND_URL || 'http://localhost:5173', // Frontend URL
     credentials: true
 }));
 app.use(express.json());
@@ -29,24 +29,27 @@ app.use(cookieParser());
 // Database Connection
 const connectDB = async () => {
     try {
-        console.log('Attempting to connect to Local MongoDB...');
+        console.log('Attempting to connect to MongoDB...');
+        // In production (Vercel), we must have a valid MONGO_URI
         await mongoose.connect(process.env.MONGO_URI, {
-            serverSelectionTimeoutMS: 5000 // Fail fast if not found
+            serverSelectionTimeoutMS: 5000
         });
-        console.log('MongoDB Connected (Local/Atlas)');
+        console.log('MongoDB Connected');
     } catch (err) {
-        console.error('MongoDB Local Connection Failed:', err.message);
-        console.log('Attempting to start In-Memory MongoDB...');
+        console.error('MongoDB Connection Failed:', err.message);
         
-        try {
-            const { MongoMemoryServer } = require('mongodb-memory-server');
-            const mongod = await MongoMemoryServer.create();
-            const uri = mongod.getUri();
-            await mongoose.connect(uri);
-            console.log('MongoDB Connected (In-Memory Fallback)');
-        } catch (memErr) {
-            console.error('MongoDB In-Memory Connection Failed:', memErr);
-            process.exit(1);
+        // Only use In-Memory fallback in development
+        if (process.env.NODE_ENV !== 'production') {
+            console.log('Attempting to start In-Memory MongoDB...');
+            try {
+                const { MongoMemoryServer } = require('mongodb-memory-server');
+                const mongod = await MongoMemoryServer.create();
+                const uri = mongod.getUri();
+                await mongoose.connect(uri);
+                console.log('MongoDB Connected (In-Memory Fallback)');
+            } catch (memErr) {
+                console.error('MongoDB In-Memory Connection Failed:', memErr);
+            }
         }
     }
 };
@@ -66,7 +69,12 @@ app.get('/', (req, res) => {
     res.send('MindEase API is running');
 });
 
-// Start Server
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-});
+// Export app for Vercel
+module.exports = app;
+
+// Start Server if running directly
+if (require.main === module) {
+    app.listen(PORT, () => {
+        console.log(`Server running on port ${PORT}`);
+    });
+}
