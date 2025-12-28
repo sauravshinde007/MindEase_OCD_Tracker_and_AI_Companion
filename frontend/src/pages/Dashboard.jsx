@@ -220,6 +220,7 @@ const Dashboard = () => {
             className="bg-surface p-6 rounded-2xl shadow-sm border border-secondary/20 h-full"
           >
             <h2 className="text-xl font-semibold mb-4 text-textMain">Check-in</h2>
+            <p className="text-sm text-textSub mb-4">How are you feeling right now?</p>
               <form onSubmit={handleCheckIn}>
                 <div className="mb-6">
                   <label className="block text-sm font-medium text-textSub mb-2">

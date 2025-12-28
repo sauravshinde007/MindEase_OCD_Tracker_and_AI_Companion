@@ -1,70 +1,74 @@
-s error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.
-[0]     at APIError.generate (D:\Projects\MindEase_OCD_Tracker_and_AI_Companion\backend\node_modules\openai\core\error.js:63:20)
-[0]     at OpenAI.makeStatusError (D:\Projects\MindEase_OCD_Tracker_and_AI_Companion\backend\node_modules\openai\client.js:165:32)
-[0]     at OpenAI.makeRequest (D:\Projects\MindEase_OCD_Tracker_and_AI_Companion\backend\node_modules\openai\client.js:333:30)
-[0]     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
-[0]     at async getInsights (D:\Projects\MindEase_OCD_Tracker_and_AI_Companion\backend\controllers\analyticsController.js:66:36) {
-[0]   status: 429,
-[0]   headers: Headers {
-[0]     date: 'Sun, 28 Dec 2025 19:04:36 GMT',
-[0]     'content-type': 'application/json; charset=utf-8',
-[0]     'content-length': '337',
-[0]     connection: 'keep-alive',
-[0]     vary: 'Origin',
-[0]     'x-request-id': 'req_cc49dd101b6c4d62ad921ae1037be154',
-[0]     'x-envoy-upstream-service-time': '52',
-[0]     'x-openai-proxy-wasm': 'v0.1',
-[0]     'cf-cache-status': 'DYNAMIC',
-[0]     'set-cookie': '__cf_bm=LdhfCNr4MJGdI7r6oBf8L9zqc1kEfU0rPSVoTKlP.0U-1766948676-1.0.1.1-Mn.5KqizCqyMhWxjaLrTxNMcclcBFZfUqvbwNzpH_RkzU1sUJvjNwxvwQ5mT5TRrO2Ygw9ug6HZKQ.6Bsg6tTpsExW.e42TStPGoqQxtnEc; path=/; expires=Sun, 28-Dec-25 19:34:36 GMT; domain=.api.openai.com; HttpOnly; Secure; SameSite=None, _cfuvid=c7zJAInU3idiL47saLtyYCeZdFW6sO95qkBzU3YREiY-1766948676149-0.0.1.1-604800000; path=/; domain=.api.openai.com; HttpOnly; Secure; SameSite=None',
-[0]     'strict-transport-security': 'max-age=31536000; includeSubDomains; preload',
-[0]     'x-content-type-options': 'nosniff',
-[0]     server: 'cloudflare',
-[0]     'cf-ray': '9b535306cbf43f6d-BOM',
-[0]     'alt-svc': 'h3=":443"; ma=86400'
-[0]   },
-[0]   requestID: 'req_cc49dd101b6c4d62ad921ae1037be154',
-[0]   error: {
-[0]     message: 'You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.',        
-[0]     type: 'insufficient_quota',
-[0]     param: null,
-[0]     code: 'insufficient_quota'
-[0]   },
-[0]   code: 'insufficient_quota',
-[0]   param: null,
-[0]   type: 'insufficient_quota'
-[0] }
-[0] AI Insight Error: RateLimitError: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.
-[0]     at APIError.generate (D:\Projects\MindEase_OCD_Tracker_and_AI_Companion\backend\node_modules\openai\core\error.js:63:20)
-[0]     at OpenAI.makeStatusError (D:\Projects\MindEase_OCD_Tracker_and_AI_Companion\backend\node_modules\openai\client.js:165:32)
-[0]     at OpenAI.makeRequest (D:\Projects\MindEase_OCD_Tracker_and_AI_Companion\backend\node_modules\openai\client.js:333:30)
-[0]     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
-[0]     at async getInsights (D:\Projects\MindEase_OCD_Tracker_and_AI_Companion\backend\controllers\analyticsController.js:66:36) {
-[0]   status: 429,
-[0]   headers: Headers {
-[0]     date: 'Sun, 28 Dec 2025 19:04:38 GMT',
-[0]     'content-type': 'application/json; charset=utf-8',
-[0]     'content-length': '337',
-[0]     connection: 'keep-alive',
-[0]     vary: 'Origin',
-[0]     'x-request-id': 'req_6cb788b324d6418d91fe5f534de96ee4',
-[0]     'x-envoy-upstream-service-time': '4',
-[0]     'x-openai-proxy-wasm': 'v0.1',
-[0]     'cf-cache-status': 'DYNAMIC',
-[0]     'set-cookie': '__cf_bm=uWcWH44TUxPftoQOrc7UTlAqEUh4oqwDoIaD5V7N7jc-1766948678-1.0.1.1-gwBT9NC2PPa4s7h0vlXzFpIGixHdFdIVauVdybizhMcRTwOPI4X.rD.0tUHImPlC3SJpTV._rwDOpg9Qd9Naq7BvVh6A8WuO.Zr1FHaz3vM; path=/; expires=Sun, 28-Dec-25 19:34:38 GMT; domain=.api.openai.com; HttpOnly; Secure; SameSite=None, _cfuvid=k.26jt6k8SnXkiQOhPbx1Yl1ChvSePLIS04GkzLz63c-1766948678537-0.0.1.1-604800000; path=/; domain=.api.openai.com; HttpOnly; Secure; SameSite=None',
-[0]     'strict-transport-security': 'max-age=31536000; includeSubDomains; preload',
-[0]     'x-content-type-options': 'nosniff',
-[0]     server: 'cloudflare',
-[0]     'cf-ray': '9b5353175ae53f6d-BOM',
-[0]     'alt-svc': 'h3=":443"; ma=86400'
-[0]   },
-[0]   requestID: 'req_6cb788b324d6418d91fe5f534de96ee4',
-[0]   error: {
-[0]     message: 'You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.',        
-[0]     type: 'insufficient_quota',
-[0]     param: null,
-[0]     code: 'insufficient_quota'
-[0]   },
-[0]   code: 'insufficient_quota',
-[0]   param: null,
-[0]   type: 'insufficient_quota'
-[0] }
+Attempting to connect to MongoDB...
+Server running on port 5000
+MongoDB Connection Failed: querySrv ENOTFOUND _mongodb._tcp.cluster0.mongodb.net
+Attempting to start In-Memory MongoDB...
+MongoDB Connected (In-Memory Fallback)
+[ERP] Detailed Error: GoogleGenerativeAIFetchError: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent: [404 Not Found] models/gemini-pro is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+    at handleResponseNotOk (D:\Projects\MindEase_OCD_Tracker_and_AI_Companion\backend\node_modules\@google\generative-ai\dist\index.js:434:11)    
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async makeRequest (D:\Projects\MindEase_OCD_Tracker_and_AI_Companion\backend\node_modules\@google\generative-ai\dist\index.js:403:9)       
+    at async generateContent (D:\Projects\MindEase_OCD_Tracker_and_AI_Companion\backend\node_modules\@google\generative-ai\dist\index.js:867:22)  
+    at async generateExposureHierarchy (D:\Projects\MindEase_OCD_Tracker_and_AI_Companion\backend\controllers\aiController.js:210:24) {
+  status: 404,
+  statusText: 'Not Found',
+  errorDetails: undefined
+}
+Gemini Insight Error: GoogleGenerativeAIFetchError: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent: [404 Not Found] models/gemini-pro is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+    at handleResponseNotOk (D:\Projects\MindEase_OCD_Tracker_and_AI_Companion\backend\node_modules\@google\generative-ai\dist\index.js:434:11)    
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async makeRequest (D:\Projects\MindEase_OCD_Tracker_and_AI_Companion\backend\node_modules\@google\generative-ai\dist\index.js:403:9)       
+    at async generateContent (D:\Projects\MindEase_OCD_Tracker_and_AI_Companion\backend\node_modules\@google\generative-ai\dist\index.js:867:22)  
+    at async getInsights (D:\Projects\MindEase_OCD_Tracker_and_AI_Companion\backend\controllers\analyticsController.js:52:32) {
+  status: 404,
+  statusText: 'Not Found',
+  errorDetails: undefined
+}
+Gemini Insight Error: GoogleGenerativeAIFetchError: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent: [404 Not Found] models/gemini-pro is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+    at handleResponseNotOk (D:\Projects\MindEase_OCD_Tracker_and_AI_Companion\backend\node_modules\@google\generative-ai\dist\index.js:434:11)    
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async makeRequest (D:\Projects\MindEase_OCD_Tracker_and_AI_Companion\backend\node_modules\@google\generative-ai\dist\index.js:403:9)       
+    at async generateContent (D:\Projects\MindEase_OCD_Tracker_and_AI_Companion\backend\node_modules\@google\generative-ai\dist\index.js:867:22)  
+    at async getInsights (D:\Projects\MindEase_OCD_Tracker_and_AI_Companion\backend\controllers\analyticsController.js:52:32) {
+  status: 404,
+  statusText: 'Not Found',
+  errorDetails: undefined
+}
+Gemini API Error: GoogleGenerativeAIFetchError: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent: [404 Not Found] models/gemini-pro is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+    at handleResponseNotOk (D:\Projects\MindEase_OCD_Tracker_and_AI_Companion\backend\node_modules\@google\generative-ai\dist\index.js:434:11)    
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async makeRequest (D:\Projects\MindEase_OCD_Tracker_and_AI_Companion\backend\node_modules\@google\generative-ai\dist\index.js:403:9)       
+    at async generateContent (D:\Projects\MindEase_OCD_Tracker_and_AI_Companion\backend\node_modules\@google\generative-ai\dist\index.js:867:22)  
+    at async chat (D:\Projects\MindEase_OCD_Tracker_and_AI_Companion\backend\controllers\aiController.js:114:24) {
+  status: 404,
+  statusText: 'Not Found',
+  errorDetails: undefined
+}
+Gemini API Error: GoogleGenerativeAIFetchError: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent: [404 Not Found] models/gemini-pro is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+    at handleResponseNotOk (D:\Projects\MindEase_OCD_Tracker_and_AI_Companion\backend\node_modules\@google\generative-ai\dist\index.js:434:11)    
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async makeRequest (D:\Projects\MindEase_OCD_Tracker_and_AI_Companion\backend\node_modules\@google\generative-ai\dist\index.js:403:9)       
+    at async generateContent (D:\Projects\MindEase_OCD_Tracker_and_AI_Companion\backend\node_modules\@google\generative-ai\dist\index.js:867:22)  
+    at async chat (D:\Projects\MindEase_OCD_Tracker_and_AI_Companion\backend\controllers\aiController.js:114:24) {
+  status: 404,
+  statusText: 'Not Found',
+  errorDetails: undefined
+}
+Gemini API Error: GoogleGenerativeAIFetchError: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent: [404 Not Found] models/gemini-pro is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+    at handleResponseNotOk (D:\Projects\MindEase_OCD_Tracker_and_AI_Companion\backend\node_modules\@google\generative-ai\dist\index.js:434:11)    
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async makeRequest (D:\Projects\MindEase_OCD_Tracker_and_AI_Companion\backend\node_modules\@google\generative-ai\dist\index.js:403:9)       
+    at async generateContent (D:\Projects\MindEase_OCD_Tracker_and_AI_Companion\backend\node_modules\@google\generative-ai\dist\index.js:867:22)  
+    at async chat (D:\Projects\MindEase_OCD_Tracker_and_AI_Companion\backend\controllers\aiController.js:114:24) {
+  status: 404,
+  statusText: 'Not Found',
+  errorDetails: undefined
+}
+Gemini API Error: GoogleGenerativeAIFetchError: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent: [404 Not Found] models/gemini-pro is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+    at handleResponseNotOk (D:\Projects\MindEase_OCD_Tracker_and_AI_Companion\backend\node_modules\@google\generative-ai\dist\index.js:434:11)    
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async makeRequest (D:\Projects\MindEase_OCD_Tracker_and_AI_Companion\backend\node_modules\@google\generative-ai\dist\index.js:403:9)       
+    at async generateContent (D:\Projects\MindEase_OCD_Tracker_and_AI_Companion\backend\node_modules\@google\generative-ai\dist\index.js:867:22)  
+    at async chat (D:\Projects\MindEase_OCD_Tracker_and_AI_Companion\backend\controllers\aiController.js:114:24) {
+  status: 404,
+  statusText: 'Not Found',
+  errorDetails: undefined
