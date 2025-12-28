@@ -18,6 +18,7 @@ const Signup = () => {
       await register(name, email, password);
       navigate('/dashboard');
     } catch (err) {
+      console.error('Signup Error:', err);
       setError(err.response?.data?.message || 'Failed to sign up');
     }
   };
