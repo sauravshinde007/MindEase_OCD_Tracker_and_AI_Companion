@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import axios from 'axios';
+import api from '../utils/api';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Send, Bot, User, Sparkles } from 'lucide-react';
 
