@@ -18,8 +18,31 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Middleware
+const allowedOrigins = [
+    process.env.FRONTEND_URL, 
+    'http://localhost:5173',
+    'https://mind-ease-ocd-tracker-and-ai-compan.vercel.app' // Explicit fallback
+].filter(Boolean);
+
 app.use(cors({
-    origin: process.env.FRONTEND_URL || 'http://localhost:5173', // Frontend URL
+    origin: (origin, callback) => {
+        // Allow requests with no origin (like mobile apps or curl requests)
+        if (!origin) return callback(null, true);
+        
+        // Remove trailing slash for comparison if present
+        const normalizedOrigin = origin.endsWith('/') ? origin.slice(0, -1) : origin;
+        const isAllowed = allowedOrigins.some(allowed => {
+            const normalizedAllowed = allowed.endsWith('/') ? allowed.slice(0, -1) : allowed;
+            return normalizedAllowed === normalizedOrigin;
+        });
+
+        if (isAllowed) {
+            callback(null, true);
+        } else {
+            console.log('Blocked by CORS:', origin);
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
     credentials: true
 }));
 app.use(express.json());
@@ -34,6 +57,11 @@ const connectDB = async () => {
 
     try {
         console.log('Attempting to connect to MongoDB...');
+        
+        if (!process.env.MONGO_URI && process.env.NODE_ENV === 'production') {
+            throw new Error('MONGO_URI is not defined in production environment.');
+        }
+
         // In production (Vercel), we must have a valid MONGO_URI
         await mongoose.connect(process.env.MONGO_URI, {
             serverSelectionTimeoutMS: 5000
@@ -54,6 +82,11 @@ const connectDB = async () => {
             } catch (memErr) {
                 console.error('MongoDB In-Memory Connection Failed:', memErr);
             }
+        } else {
+             // In production, we cannot fallback to in-memory, so we must exit if DB fails
+             // This ensures Render restarts the service to try again
+             console.error('Critical Error: Database connection failed in production. Exiting.');
+             process.exit(1);
         }
     }
 };
