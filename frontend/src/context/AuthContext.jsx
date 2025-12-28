@@ -12,17 +12,12 @@ export const AuthProvider = ({ children }) => {
   // Set default axios credentials to true
   axios.defaults.withCredentials = true;
 
-  // Use relative path in production (let Vercel handle the routing), or localhost in dev
-  const API_URL = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? '' : 'http://localhost:5000');
+  // Use relative path for both dev (via proxy) and prod (same domain)
+  // This avoids CORS issues and invalid domain errors
+  const API_URL = '';
   
-  // Ensure we don't have a malformed URL like "https://api/..." if env var is missing/wrong
   const getApiUrl = (endpoint) => {
-    if (API_URL === '' || API_URL.startsWith('/')) {
-      return `${API_URL}${endpoint}`;
-    }
-    // If API_URL is a full URL, ensure it doesn't end with slash
-    const baseUrl = API_URL.endsWith('/') ? API_URL.slice(0, -1) : API_URL;
-    return `${baseUrl}${endpoint}`;
+    return endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
   };
 
   useEffect(() => {

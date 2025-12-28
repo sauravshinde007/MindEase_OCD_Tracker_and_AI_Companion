@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { List, CheckCircle, AlertTriangle, ArrowRight } from 'lucide-react';
 
 const Exposure = () => {
-  const API_URL = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? '' : 'http://localhost:5000');
+  const API_URL = ''; // Use relative paths via proxy
   const [fearTheme, setFearTheme] = useState('');
   const [hierarchy, setHierarchy] = useState(null);
   const [loading, setLoading] = useState(false);

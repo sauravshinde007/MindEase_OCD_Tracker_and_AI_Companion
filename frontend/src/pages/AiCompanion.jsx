@@ -4,7 +4,7 @@ import { Send, Bot, User, RefreshCw, BrainCircuit, MessageSquare, HeartPulse } f
 import { motion } from 'framer-motion';
 
 const AiCompanion = () => {
-  const API_URL = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? '' : 'http://localhost:5000');
+  const API_URL = ''; // Use relative paths via proxy
   const [mode, setMode] = useState('chat'); // 'chat' | 'deconstruct' | 'check-in'
   
   // Chat State

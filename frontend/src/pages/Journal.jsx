@@ -9,7 +9,7 @@ import { format, isSameDay, parseISO } from 'date-fns';
 const SECRET_KEY = 'MINDEASE_CLIENT_SECRET'; // In prod, this should be user-defined
 
 const Journal = () => {
-  const API_URL = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? '' : 'http://localhost:5000');
+  const API_URL = ''; // Use relative paths via proxy
   const [entries, setEntries] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');

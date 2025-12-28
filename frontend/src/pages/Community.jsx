@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
 
 const Community = () => {
-  const API_URL = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? '' : 'http://localhost:5000');
+  const API_URL = ''; // Use relative paths via proxy
   const { user } = useAuth();
   const [stories, setStories] = useState([]);
   const [newStory, setNewStory] = useState({ title: '', content: '', isAnonymous: false });

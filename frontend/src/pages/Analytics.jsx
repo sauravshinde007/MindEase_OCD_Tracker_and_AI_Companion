@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { format, parseISO } from 'date-fns';
 
 const Analytics = () => {
-  const API_URL = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? '' : 'http://localhost:5000');
+  const API_URL = ''; // Use relative paths via proxy
   const [moodLogs, setMoodLogs] = useState([]);
   const [erpTasks, setErpTasks] = useState([]);
   const [compulsions, setCompulsions] = useState([]);
