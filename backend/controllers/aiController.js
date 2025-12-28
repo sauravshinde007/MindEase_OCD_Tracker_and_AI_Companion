@@ -95,42 +95,17 @@ const checkIn = async (req, res) => {
 
     // Mock Response
     if (!process.env.OPENAI_API_KEY || process.env.OPENAI_API_KEY === 'your_openai_key_here' || process.env.OPENAI_API_KEY === 'dummy-key') {
-         let analysis = null;
-         const lowerMsg = message.toLowerCase();
-         let moodLabel = 'Neutral';
-         let anxietyScore = 3;
+        console.log('Using Mock Check-in Response (No API Key)');
+        const result = getMockCheckInResult(message);
 
-         if (lowerMsg.includes('happy') || lowerMsg.includes('good') || lowerMsg.includes('great')) {
-             moodLabel = 'Happy';
-             anxietyScore = 2;
-         } else if (lowerMsg.includes('sad') || lowerMsg.includes('bad') || lowerMsg.includes('depressed')) {
-             moodLabel = 'Sad';
-             anxietyScore = 5;
-         } else if (lowerMsg.includes('anxious') || lowerMsg.includes('panic') || lowerMsg.includes('scared')) {
-             moodLabel = 'Anxious';
-             anxietyScore = 8;
-         }
-
-         // Simple sleep extraction mock
-         let sleepHours = undefined;
-         const sleepMatch = lowerMsg.match(/slept (\d+) hours/);
-         if (sleepMatch) {
-            sleepHours = parseInt(sleepMatch[1]);
-         }
-
-         // Only log if meaningful keywords found or explicitly asked
-         if (moodLabel !== 'Neutral' || sleepHours) {
-             analysis = { moodLabel, anxietyScore, note: message, sleepHours };
-         }
-
-        if (analysis) {
+        if (result.analysis) {
             try {
                  const newMood = new MoodLog({
                      user: req.user._id,
-                     moodLabel: analysis.moodLabel,
-                     anxietyScore: analysis.anxietyScore,
-                     note: analysis.note,
-                     sleepHours: analysis.sleepHours
+                     moodLabel: result.analysis.moodLabel,
+                     anxietyScore: result.analysis.anxietyScore,
+                     note: result.analysis.note,
+                     sleepHours: result.analysis.sleepHours
                  });
                  await newMood.save();
             } catch (err) {
@@ -138,10 +113,7 @@ const checkIn = async (req, res) => {
             }
         }
 
-        return res.json({
-            reply: "I'm listening. Tell me more about what's on your mind.",
-            analysis: analysis
-        });
+        return res.json(result);
     }
 
     try {
@@ -176,8 +148,27 @@ const checkIn = async (req, res) => {
 
         res.json(result);
     } catch (error) {
-        console.error('OpenAI Check-in Error:', error);
-        res.status(500).json({ message: 'Failed to process check-in' });
+        console.error('OpenAI Check-in Error (Switching to Mock):', error.message);
+        // Fallback to mock if API fails (e.g., Rate Limit, Network Error)
+        console.log('Falling back to Mock Check-in Response due to API Error');
+        const result = getMockCheckInResult(message);
+        
+        if (result.analysis) {
+             try {
+                 const newMood = new MoodLog({
+                     user: req.user._id,
+                     moodLabel: result.analysis.moodLabel,
+                     anxietyScore: result.analysis.anxietyScore,
+                     note: result.analysis.note,
+                     sleepHours: result.analysis.sleepHours
+                 });
+                 await newMood.save();
+            } catch (err) {
+                console.error("Mock Mood Save Error (Fallback):", err);
+            }
+        }
+        
+        res.json(result);
     }
 };
 
@@ -223,11 +214,7 @@ const deconstructThought = async (req, res) => {
 
     // Mock Data for Thought Deconstruction
     if (!process.env.OPENAI_API_KEY || process.env.OPENAI_API_KEY === 'your_openai_key_here' || process.env.OPENAI_API_KEY === 'dummy-key') {
-        return res.json({
-            analysis: "This sounds like 'Catastrophizing' - assuming the worst will happen.",
-            challenge: "What is the evidence that this thought is 100% true? Have you survived similar feelings before?",
-            reframe: "Even if I feel anxious, it doesn't mean something bad will happen. I can handle this feeling."
-        });
+        return res.json(getMockDeconstruction());
     }
 
     try {
@@ -237,14 +224,78 @@ const deconstructThought = async (req, res) => {
                 { role: "user", content: `Thought: "${thought}". Distortion: "${distortion || 'Unknown'}"` }
             ],
             model: "gpt-3.5-turbo",
+            response_format: { type: "json_object" }
         });
 
         const result = JSON.parse(completion.choices[0].message.content);
         res.json(result);
     } catch (error) {
-        console.error('OpenAI CBT Error:', error);
-        res.status(500).json({ message: 'Failed to deconstruct thought' });
+        console.error('OpenAI Deconstruction Error (Switching to Mock):', error.message);
+        res.json(getMockDeconstruction());
     }
+};
+
+const getMockCheckInResult = (message) => {
+    const lowerMsg = message.toLowerCase();
+    
+    // Helper to pick random response
+    const pickRandom = (arr) => arr[Math.floor(Math.random() * arr.length)];
+
+    let analysis = null;
+    let reply = "";
+
+    // Simple keyword detection for mood analysis
+    if (lowerMsg.includes('anx') || lowerMsg.includes('panic') || lowerMsg.includes('fear') || lowerMsg.includes('scared')) {
+        analysis = {
+            moodLabel: 'Anxious',
+            anxietyScore: 7,
+            note: 'User mentioned anxiety or fear.',
+        };
+        reply = pickRandom([
+            "I hear that you're feeling anxious. Let's try a grounding exercise: Name 5 things you can see, 4 things you can touch, 3 things you can hear, 2 things you can smell, and 1 thing you can taste.",
+            "Anxiety can be overwhelming. Try to breathe in for 4 seconds, hold for 7, and exhale for 8.",
+            "You are safe right now. Focus on your breathing."
+        ]);
+    } else if (lowerMsg.includes('sad') || lowerMsg.includes('depress') || lowerMsg.includes('down') || lowerMsg.includes('cry')) {
+        analysis = {
+            moodLabel: 'Sad',
+            anxietyScore: 5,
+            note: 'User mentioned sadness.',
+        };
+        reply = pickRandom([
+            "I'm sorry you're feeling down. Be kind to yourself today.",
+            "It's okay to feel sad. I'm here to listen.",
+            "Sending you a virtual hug. Do you want to talk about what's making you feel this way?"
+        ]);
+    } else if (lowerMsg.includes('happy') || lowerMsg.includes('good') || lowerMsg.includes('great') || lowerMsg.includes('excited')) {
+        analysis = {
+            moodLabel: 'Happy',
+            anxietyScore: 2,
+            note: 'User mentioned feeling good.',
+        };
+        reply = pickRandom([
+            "That's wonderful to hear! What's making you feel good today?",
+            "I'm glad you're feeling well! Keep up the positive vibes.",
+            "That's great news! Enjoy this moment."
+        ]);
+    } else {
+        // Default / Neutral
+        reply = pickRandom([
+            "I'm here for you. Tell me more about how you're feeling.",
+            "I'm listening. How has your day been?",
+            "Thank you for sharing. I'm here to support you."
+        ]);
+    }
+
+    return { reply, analysis };
+};
+
+const getMockDeconstruction = () => {
+    return {
+        analysis: "This sounds like 'Catastrophizing' - assuming the worst will happen.",
+        challenge: "What is the evidence that this thought is 100% true? Have you survived similar feelings before?",
+        reframe: "Even if I feel anxious, it doesn't mean something bad will happen. I can handle this feeling."
+    };
 };
 
 module.exports = { chat, generateExposureHierarchy, deconstructThought, checkIn };
