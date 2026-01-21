@@ -11,6 +11,7 @@ import Exposure from './pages/Exposure';
 import EpisodeMode from './pages/EpisodeMode';
 import Community from './pages/Community';
 import CBTTherapy from './pages/CBTTherapy';
+import DelayHistory from './pages/DelayHistory';
 import PrivateRoute from './components/PrivateRoute';
 import Layout from './components/Layout';
 
@@ -34,6 +35,7 @@ function App() {
                     <Route path="/ai-companion" element={<AiCompanion />} />
                     <Route path="/community" element={<Community />} />
                     <Route path="/cbt-therapy" element={<CBTTherapy />} />
+                    <Route path="/delay-history" element={<DelayHistory />} />
                 </Route>
             </Route>
           </Routes>

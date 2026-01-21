@@ -69,6 +69,15 @@ const Dashboard = () => {
     const points = Math.floor(timerSeconds / 60) * 10 + (didResist ? 50 : 0);
     const resistanceMinutes = Math.floor(timerSeconds / 60);
 
+    const newEntry = { 
+        duration: formatTime(timerSeconds), 
+        date: new Date().toLocaleDateString(), 
+        time: new Date().toLocaleTimeString(),
+        didResist 
+    };
+    const history = JSON.parse(localStorage.getItem('delayTimerHistory') || '[]');
+    localStorage.setItem('delayTimerHistory', JSON.stringify([newEntry, ...history]));
+
     try {
       await api.post('/api/compulsions', {
         compulsionName,
