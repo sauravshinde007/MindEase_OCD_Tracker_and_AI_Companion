@@ -10,6 +10,7 @@ import Analytics from './pages/Analytics';
 import Exposure from './pages/Exposure';
 import EpisodeMode from './pages/EpisodeMode';
 import Community from './pages/Community';
+import CBTTherapy from './pages/CBTTherapy';
 import PrivateRoute from './components/PrivateRoute';
 import Layout from './components/Layout';
 
@@ -32,6 +33,7 @@ function App() {
                     <Route path="/exposure" element={<Exposure />} />
                     <Route path="/ai-companion" element={<AiCompanion />} />
                     <Route path="/community" element={<Community />} />
+                    <Route path="/cbt-therapy" element={<CBTTherapy />} />
                 </Route>
             </Route>
           </Routes>
